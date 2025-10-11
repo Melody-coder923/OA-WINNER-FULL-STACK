@@ -1,0 +1,91 @@
+/* ============================================
+   DASHBOARD SPECIFIC STYLES
+   仅用于demo.html页面的样式
+   ============================================ */
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.stat-card {
+    text-align: center;
+    padding: var(--spacing-lg);
+}
+
+.stat-number {
+    font-weight: 700;
+    color: var(--primary-color);
+    display: block;
+    font-size: 2rem;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    margin-top: var(--spacing-sm);
+    font-size: 0.9rem;
+}
+
+/* Question Cards in Dashboard */
+.question-title {
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
+}
+
+.question-meta {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.9rem;
+}
+
+/* Demo Notice */
+.demo-notice {
+    background: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius-large);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+}
+
+.demo-notice h3 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .stat-card {
+        padding: var(--spacing-md);
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    .demo-notice {
+        padding: 0.75rem;
+        margin-bottom: var(--spacing-md);
+    }
+}
+
+/* Large Desktop */
+@media (min-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

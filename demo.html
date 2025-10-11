@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OA WINNER - Demo</title>
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="header">
+        <h1>🏆 OA WINNER</h1>
+    </div>
+    
+    <div class="nav">
+        <a href="demo.html" class="active">📊 Dashboard</a>
+        <a href="today-review.html">⏰ Today's Review</a>
+        <a href="question-list.html">📝 Question List</a>
+        <a href="statistics.html">📈 Statistics</a>
+    </div>
+    
+    <div class="container">
+        <div class="demo-notice">
+            <h3>🎯 Demo Version</h3>
+            <p>This is the UI demo of OA WINNER. Full functionality requires running the Spring Boot application.</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">15</span>
+                <div class="stat-label">Total Questions</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">12</span>
+                <div class="stat-label">Total Reviews</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">80%</span>
+                <div class="stat-label">Mastery Rate</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">16%</span>
+                <div class="stat-label">Forgetting Score</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📚 Today's Review</h2>
+            <div class="question-card">
+                <div class="question-title">1. Two Sum</div>
+                <div class="question-meta">
+                    <span class="difficulty easy">Easy</span>
+                    <span style="margin-left: 1rem;">Tags: Array, Hash Table</span>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-title">11. Container With Most Water</div>
+                <div class="question-meta">
+                    <span class="difficulty medium">Medium</span>
+                    <span style="margin-left: 1rem;">Tags: Array, Two Pointers</span>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-title">206. Reverse Linked List</div>
+                <div class="question-meta">
+                    <span class="difficulty easy">Easy</span>
+                    <span style="margin-left: 1rem;">Tags: Linked List, Recursion</span>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <button class="btn" onclick="goToReview()">Start Review</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/common.js"></script>
+    <script>
+        // Dashboard specific functions
+        function goToReview() {
+            try {
+                window.location.href = 'today-review.html';
+            } catch (error) {
+                console.error('Navigation error:', error);
+                showNotification('Unable to navigate to review page. Please check if the file exists.', 'error');
+            }
+        }
+    </script>
+</body>
+</html>

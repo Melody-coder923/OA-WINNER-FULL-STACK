@@ -1,0 +1,67 @@
+/* ============================================
+   QUESTION LIST SPECIFIC STYLES
+   仅用于question-list.html页面的样式
+   ============================================ */
+
+/* Container specific to question list */
+.container {
+    max-width: 900px;
+}
+
+/* Form specific styles */
+.difficulty-option {
+    padding: var(--spacing-sm);
+}
+
+.difficulty-option.easy {
+    color: #2e7d32;
+}
+
+.difficulty-option.medium {
+    color: #f57c00;
+}
+
+.difficulty-option.hard {
+    color: #d32f2f;
+}
+
+.tags-hint {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: var(--spacing-xs);
+}
+
+/* Form validation */
+.form-input:invalid {
+    border-color: #d32f2f;
+}
+
+.form-input:valid {
+    border-color: #2e7d32;
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+    .btn {
+        flex: 1;
+        padding: 0.75rem var(--spacing-md);
+        font-size: 1rem;
+    }
+}
+
+/* Tablet and Desktop */
+@media (min-width: 768px) {
+    .form-input, .form-select {
+        padding: var(--spacing-md);
+    }
+    
+    .button-group {
+        gap: var(--spacing-lg);
+    }
+    
+    .btn {
+        padding: var(--spacing-md) var(--spacing-xl);
+        flex: none;
+        min-width: 120px;
+    }
+}

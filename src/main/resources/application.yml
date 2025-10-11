@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: leetcode-memory-tracker
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/leetcode_tracker?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    open-in-view: false
+  
+  vaadin:
+    production-mode: false
+
+# Server configuration
+server:
+  port: 8080
+
+# Logging configuration
+logging:
+  level:
+    com.leetcode.tracker: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Custom application properties
+app:
+  ebbinghaus:
+    intervals:
+      - 1    # 1 day
+      - 2    # 2 days
+      - 4    # 4 days
+      - 7    # 7 days
+      - 15   # 15 days
+      - 30   # 30 days
+  
+  scheduler:
+    daily-review-generator: "0 0 1 * * ?"  # 1 AM daily
+    streak-updater: "0 0 0 * * ?"          # Midnight daily

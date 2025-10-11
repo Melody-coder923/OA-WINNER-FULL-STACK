@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics - OA WINNER</title>
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/statistics.css">
+</head>
+<body>
+    <div class="header">
+        <h1>🏆 OA WINNER</h1>
+    </div>
+    
+    <div class="nav">
+        <a href="demo.html">📊 Dashboard</a>
+        <a href="today-review.html">⏰ Today's Review</a>
+        <a href="question-list.html">📝 Question List</a>
+        <a href="statistics.html" class="active">📈 Statistics</a>
+    </div>
+    
+    <div class="container">
+        <a href="demo.html" class="back-link">← Back to Dashboard</a>
+        
+        <div class="section">
+            <h2>📈 Review Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">15</span>
+                    <div class="stat-label">Total Questions</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">12</span>
+                    <div class="stat-label">Total Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">80%</span>
+                    <div class="stat-label">Mastery Rate</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">16%</span>
+                    <div class="stat-label">Forgetting Score</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Progress Overview</h2>
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span>Easy Questions Mastery</span>
+                    <span>80%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 80%"></div>
+                </div>
+            </div>
+            
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span>Medium Questions Mastery</span>
+                    <span>60%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 60%"></div>
+                </div>
+            </div>
+            
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span>Hard Questions Mastery</span>
+                    <span>30%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 30%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📚 Category Breakdown</h2>
+            <div style="color: var(--text-secondary);">
+                <div style="margin-bottom: var(--spacing-md);">
+                    <strong>Array:</strong> 8 questions (3 easy, 4 medium, 1 hard)
+                </div>
+                <div style="margin-bottom: var(--spacing-md);">
+                    <strong>String:</strong> 6 questions (2 easy, 3 medium, 1 hard)
+                </div>
+                <div style="margin-bottom: var(--spacing-md);">
+                    <strong>Hash Table:</strong> 4 questions (1 easy, 2 medium, 1 hard)
+                </div>
+                <div style="margin-bottom: var(--spacing-md);">
+                    <strong>Dynamic Programming:</strong> 3 questions (0 easy, 2 medium, 1 hard)
+                </div>
+                <div style="margin-bottom: var(--spacing-md);">
+                    <strong>Tree:</strong> 5 questions (2 easy, 2 medium, 1 hard)
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/common.js"></script>
+    <script src="js/statistics.js"></script>
+</body>
+</html>
