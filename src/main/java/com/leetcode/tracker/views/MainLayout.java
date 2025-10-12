@@ -42,10 +42,10 @@ public class MainLayout extends AppLayout {
     private void createDrawer() {
         SideNav nav = new SideNav();
         
-        nav.addItem(new SideNavItem("仪表板", DashboardView.class, VaadinIcon.DASHBOARD.create()));
-        nav.addItem(new SideNavItem("今日复习", TodayReviewView.class, VaadinIcon.CLOCK.create()));
-        nav.addItem(new SideNavItem("题目列表", QuestionListView.class, VaadinIcon.LIST.create()));
-        nav.addItem(new SideNavItem("统计信息", StatisticsView.class, VaadinIcon.CHART.create()));
+        nav.addItem(new SideNavItem("Dashboard", DashboardView.class, VaadinIcon.DASHBOARD.create()));
+        nav.addItem(new SideNavItem("Today's Review", TodayReviewView.class, VaadinIcon.CLOCK.create()));
+        nav.addItem(new SideNavItem("Question List", QuestionListView.class, VaadinIcon.LIST.create()));
+        nav.addItem(new SideNavItem("Statistics", StatisticsView.class, VaadinIcon.CHART.create()));
         
         addToDrawer(nav);
     }

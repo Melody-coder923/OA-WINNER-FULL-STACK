@@ -20,7 +20,7 @@ import java.util.List;
  * Dashboard view showing overview statistics and recent activity
  */
 @Route(value = "", layout = MainLayout.class)
-@PageTitle("仪表板 | LeetCode Memory Tracker")
+@PageTitle("Dashboard | LeetCode Memory Tracker")
 public class DashboardView extends VerticalLayout {
     
     private final UserService userService;
@@ -58,7 +58,7 @@ public class DashboardView extends VerticalLayout {
     }
     
     private void createHeader() {
-        H2 header = new H2("欢迎回来, " + (currentUser != null ? currentUser.getDisplayName() : "用户"));
+        H2 header = new H2("Welcome back, " + (currentUser != null ? currentUser.getDisplayName() : "User"));
         header.addClassNames(LumoUtility.Margin.Bottom.LARGE);
         add(header);
     }
@@ -69,9 +69,9 @@ public class DashboardView extends VerticalLayout {
         statsLayout.setSpacing(true);
         
         // Total Questions Card
-        Div totalQuestionsCard = createStatCard("总题目数", 
+        Div totalQuestionsCard = createStatCard("Total Questions", 
             String.valueOf(questionService.getAllQuestions().size()), 
-            "题目总数");
+            "Total questions");
         statsLayout.add(totalQuestionsCard);
         
         // Solved Questions Card
@@ -82,18 +82,18 @@ public class DashboardView extends VerticalLayout {
                                 review.getStatus() == UserQuestionReview.ReviewStatus.MASTERED)
                 .count();
             
-            Div solvedCard = createStatCard("已解决", String.valueOf(solvedCount), "已解决题目");
+            Div solvedCard = createStatCard("Solved", String.valueOf(solvedCount), "Solved questions");
             statsLayout.add(solvedCard);
             
             // Due Reviews Card
             List<UserQuestionReview> dueReviews = reviewService.getDueReviews(currentUser);
-            Div dueCard = createStatCard("待复习", String.valueOf(dueReviews.size()), "今日待复习");
+            Div dueCard = createStatCard("Due Reviews", String.valueOf(dueReviews.size()), "Today's due reviews");
             statsLayout.add(dueCard);
             
             // Current Streak Card
-            Div streakCard = createStatCard("连续天数", 
+            Div streakCard = createStatCard("Current Streak", 
                 String.valueOf(currentUser.getCurrentStreak()), 
-                "当前连续天数");
+                "Current streak days");
             statsLayout.add(streakCard);
         }
         
@@ -129,7 +129,7 @@ public class DashboardView extends VerticalLayout {
     }
     
     private void createRecentActivity() {
-        H2 activityHeader = new H2("最近活动");
+        H2 activityHeader = new H2("Recent Activity");
         activityHeader.addClassNames(LumoUtility.Margin.Top.LARGE, LumoUtility.Margin.Bottom.MEDIUM);
         add(activityHeader);
         
@@ -144,7 +144,7 @@ public class DashboardView extends VerticalLayout {
         if (currentUser != null) {
             List<UserQuestionReview> recentReviews = reviewService.getUserReviews(currentUser);
             if (recentReviews.isEmpty()) {
-                activityCard.add(new Span("暂无活动记录"));
+                activityCard.add(new Span("No activity records"));
             } else {
                 VerticalLayout activityList = new VerticalLayout();
                 activityList.setSpacing(true);
@@ -153,7 +153,7 @@ public class DashboardView extends VerticalLayout {
                     .limit(5)
                     .forEach(review -> {
                         Span activityItem = new Span(
-                            String.format("复习了题目: %s (%s)", 
+                            String.format("Reviewed question: %s (%s)", 
                                 review.getQuestion().getTitle(),
                                 review.getQuestion().getDifficulty().getDisplayName())
                         );
@@ -163,7 +163,7 @@ public class DashboardView extends VerticalLayout {
                 activityCard.add(activityList);
             }
         } else {
-            activityCard.add(new Span("请先登录"));
+            activityCard.add(new Span("Please login first"));
         }
         
         add(activityCard);

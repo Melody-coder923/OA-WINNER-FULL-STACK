@@ -61,10 +61,10 @@ public class UserQuestionReview {
      * Review status for tracking progress
      */
     public enum ReviewStatus {
-        NOT_STARTED("未开始"),
-        IN_PROGRESS("进行中"),
-        MASTERED("已掌握"),
-        ARCHIVED("已归档");
+        NOT_STARTED("Not Started"),
+        IN_PROGRESS("In Progress"),
+        MASTERED("Mastered"),
+        ARCHIVED("Archived");
         
         private final String displayName;
         

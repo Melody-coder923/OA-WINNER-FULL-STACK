@@ -1,6 +1,6 @@
 /* ============================================
    QUESTION LIST SPECIFIC JAVASCRIPT
-   仅用于question-list.html页面的功能
+   Question list page functionality
    ============================================ */
 
 // Constants

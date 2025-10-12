@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Settings - OA WINNER</title>
+    <link rel="stylesheet" href="styles/common.css">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .settings-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow-medium);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .settings-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .settings-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(111, 156, 110, 0.1);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            background: white;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .toggle-label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        .btn-test {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn-test:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-enabled {
+            background-color: #28a745;
+        }
+        
+        .status-disabled {
+            background-color: #dc3545;
+        }
+        
+        .email-logs {
+            margin-top: 2rem;
+        }
+        
+        .log-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .log-time {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .preview-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+        
+        .preview-section h4 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📧 Email Settings</h1>
+    </div>
+    
+    <div class="nav">
+        <a href="demo.html">📊 Dashboard</a>
+        <a href="today-review.html">⏰ Today's Review</a>
+        <a href="question-list.html">📝 Question List</a>
+        <a href="statistics.html">📈 Statistics</a>
+        <a href="email-settings.html" class="active">📧 Email Settings</a>
+    </div>
+    
+    <div class="settings-container">
+        <div class="settings-card">
+            <div class="settings-header">
+                <h1>📧 Daily Email Reminders</h1>
+                <p>Get daily reminders to practice your LeetCode problems based on the Ebbinghaus forgetting curve.</p>
+            </div>
+            
+            <form id="emailSettingsForm">
+                <div class="form-group">
+                    <div class="toggle-container">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="enableReminders">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="toggle-label">Enable Daily Email Reminders</span>
+                        <span id="statusIndicator" class="status-indicator status-disabled"></span>
+                        <span id="statusText">Disabled</span>
+                    </div>
+                </div>
+                
+                <div id="settingsFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="emailAddress" class="form-label">Email Address</label>
+                        <input type="email" id="emailAddress" class="form-input" placeholder="your.email@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reminderTime" class="form-label">Reminder Time</label>
+                        <input type="time" id="reminderTime" class="form-input" value="09:00">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="timezone" class="form-label">Timezone</label>
+                        <select id="timezone" class="form-select">
+                            <option value="America/New_York">Eastern Time (ET)</option>
+                            <option value="America/Chicago">Central Time (CT)</option>
+                            <option value="America/Denver">Mountain Time (MT)</option>
+                            <option value="America/Los_Angeles">Pacific Time (PT)</option>
+                            <option value="UTC">UTC</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="frequency" class="form-label">Frequency</label>
+                        <select id="frequency" class="form-select">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly (Monday)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                    <button type="button" id="testEmail" class="btn btn-test">Send Test Email</button>
+                    <button type="button" id="previewEmail" class="btn btn-secondary">Preview Email</button>
+                </div>
+            </form>
+            
+            <div class="preview-section" id="emailPreview" style="display: none;">
+                <h4>📧 Email Preview</h4>
+                <div id="previewContent"></div>
+            </div>
+        </div>
+        
+        <div class="settings-card">
+            <h3>📋 Recent Email Logs</h3>
+            <div id="emailLogs" class="email-logs">
+                <p>No emails sent yet.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/common.js"></script>
+    <script src="js/statistics.js"></script>
+    <script src="js/email-reminder.js"></script>
+    <script>
+        // Initialize email settings page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEmailSettings();
+            loadCurrentSettings();
+            loadEmailLogs();
+        });
+        
+        function initializeEmailSettings() {
+            const form = document.getElementById('emailSettingsForm');
+            const enableToggle = document.getElementById('enableReminders');
+            const settingsFields = document.getElementById('settingsFields');
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            const testEmailBtn = document.getElementById('testEmail');
+            const previewEmailBtn = document.getElementById('previewEmail');
+            
+            // Toggle settings fields visibility
+            enableToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    settingsFields.style.display = 'block';
+                    statusIndicator.className = 'status-indicator status-enabled';
+                    statusText.textContent = 'Enabled';
+                } else {
+                    settingsFields.style.display = 'none';
+                    statusIndicator.className = 'status-indicator status-disabled';
+                    statusText.textContent = 'Disabled';
+                }
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveEmailSettings();
+            });
+            
+            // Test email button
+            testEmailBtn.addEventListener('click', async function() {
+                try {
+                    setLoadingState(this, true);
+                    await emailReminderSystem.testEmailSending();
+                    showNotification('Test email sent successfully!', 'info');
+                } catch (error) {
+                    showNotification('Error sending test email: ' + error.message, 'error');
+                } finally {
+                    setLoadingState(this, false);
+                }
+            });
+            
+            // Preview email button
+            previewEmailBtn.addEventListener('click', function() {
+                previewEmail();
+            });
+        }
+        
+        function loadCurrentSettings() {
+            const settings = emailReminderSystem.reminderSettings;
+            
+            document.getElementById('enableReminders').checked = settings.enabled;
+            document.getElementById('emailAddress').value = settings.email || '';
+            document.getElementById('reminderTime').value = settings.time || '09:00';
+            document.getElementById('frequency').value = settings.frequency || 'daily';
+            
+            // Trigger toggle change event
+            document.getElementById('enableReminders').dispatchEvent(new Event('change'));
+        }
+        
+        function saveEmailSettings() {
+            const enabled = document.getElementById('enableReminders').checked;
+            const email = document.getElementById('emailAddress').value;
+            const time = document.getElementById('reminderTime').value;
+            const frequency = document.getElementById('frequency').value;
+            
+            if (enabled && !email) {
+                showNotification('Please enter an email address', 'error');
+                return;
+            }
+            
+            if (enabled) {
+                emailReminderSystem.enableReminders(email, time);
+                emailReminderSystem.reminderSettings.frequency = frequency;
+                emailReminderSystem.saveReminderSettings();
+                showNotification('Email reminders enabled!', 'info');
+            } else {
+                emailReminderSystem.disableReminders();
+                showNotification('Email reminders disabled', 'info');
+            }
+            
+            loadEmailLogs();
+        }
+        
+        function previewEmail() {
+            const email = document.getElementById('emailAddress').value;
+            
+            if (!email) {
+                showNotification('Please enter an email address first', 'error');
+                return;
+            }
+            
+            const todayQuestions = emailReminderSystem.getTodayReviewQuestions();
+            const userStats = emailReminderSystem.getUserStatistics();
+            const emailContent = emailReminderSystem.createEmailContent(todayQuestions, userStats);
+            
+            const previewContent = document.getElementById('previewContent');
+            const emailPreview = document.getElementById('emailPreview');
+            
+            previewContent.innerHTML = `
+                <div style="border: 1px solid #ddd; padding: 1rem; background: white; border-radius: 5px;">
+                    <div style="border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1rem;">
+                        <strong>To:</strong> ${emailContent.to}<br>
+                        <strong>Subject:</strong> ${emailContent.subject}
+                    </div>
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        ${emailContent.html}
+                    </div>
+                </div>
+            `;
+            
+            emailPreview.style.display = 'block';
+        }
+        
+        function loadEmailLogs() {
+            const logs = emailReminderSystem.getEmailLogs();
+            const logsContainer = document.getElementById('emailLogs');
+            
+            if (logs.length === 0) {
+                logsContainer.innerHTML = '<p>No emails sent yet.</p>';
+                return;
+            }
+            
+            const logsHTML = logs.reverse().slice(0, 10).map(log => `
+                <div class="log-item">
+                    <div><strong>${log.subject}</strong></div>
+                    <div>To: ${log.to}</div>
+                    <div class="log-time">${new Date(log.timestamp).toLocaleString()}</div>
+                </div>
+            `).join('');
+            
+            logsContainer.innerHTML = logsHTML;
+        }
+    </script>
+</body>
+</html>

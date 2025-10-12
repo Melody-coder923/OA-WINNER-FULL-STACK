@@ -1,6 +1,6 @@
 /* ============================================
    TODAY REVIEW SPECIFIC JAVASCRIPT
-   仅用于today-review.html页面的功能
+   Today review page functionality
    ============================================ */
 
 // Variables

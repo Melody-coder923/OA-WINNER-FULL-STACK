@@ -1,12 +1,12 @@
 /* ============================================
    COMMON STYLES - OA WINNER
-   通用样式，所有页面共享
+   Shared styles across all pages
    ============================================ */
 
 /* CSS Variables */
 :root {
-    --primary-color: #8C947D;
-    --primary-dark: #6B7258;
+    --primary-color: #6F9C6E;
+    --primary-dark: #4A6B4A;
     --text-color: #3d1b0b;
     --text-secondary: #666;
     --text-light: #999;
@@ -26,20 +26,29 @@
     --spacing-xl: 2rem;
 }
 
-/* Reset */
-* {
+/* Reset and Base Styles */
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Base Styles */
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
 
 /* Layout */
 .container {

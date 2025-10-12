@@ -1,6 +1,6 @@
 /* ============================================
    DASHBOARD SPECIFIC STYLES
-   仅用于demo.html页面的样式
+   Dashboard page specific styles
    ============================================ */
 
 /* Stats Grid */
@@ -56,6 +56,7 @@
     color: var(--text-color);
     margin-bottom: var(--spacing-sm);
 }
+
 
 /* Mobile Responsive */
 @media (max-width: 767px) {

@@ -55,10 +55,10 @@ public class ReviewHistory {
      * Review rating based on Ebbinghaus forgetting curve
      */
     public enum ReviewRating {
-        FORGOT("忘记了", 0),
-        HARD("困难", 1),
-        GOOD("良好", 2),
-        EASY("简单", 3);
+        FORGOT("Forgot", 0),
+        HARD("Hard", 1),
+        GOOD("Good", 2),
+        EASY("Easy", 3);
         
         private final String displayName;
         private final int value;

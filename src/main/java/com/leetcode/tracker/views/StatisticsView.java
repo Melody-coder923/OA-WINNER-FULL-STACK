@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * Statistics view showing detailed analytics and progress
  */
 @Route(value = "statistics", layout = MainLayout.class)
-@PageTitle("统计信息 | LeetCode Memory Tracker")
+@PageTitle("Statistics | LeetCode Memory Tracker")
 public class StatisticsView extends VerticalLayout {
     
     private final UserService userService;
@@ -59,13 +59,13 @@ public class StatisticsView extends VerticalLayout {
     }
     
     private void createHeader() {
-        H2 header = new H2("统计信息");
+        H2 header = new H2("Statistics");
         header.addClassNames(LumoUtility.Margin.Bottom.LARGE);
         add(header);
     }
     
     private void createOverviewStats() {
-        H2 sectionTitle = new H2("总体统计");
+        H2 sectionTitle = new H2("Overview Statistics");
         sectionTitle.addClassNames(LumoUtility.Margin.Top.LARGE, LumoUtility.Margin.Bottom.MEDIUM);
         add(sectionTitle);
         
@@ -83,19 +83,19 @@ public class StatisticsView extends VerticalLayout {
                                 review.getStatus() == UserQuestionReview.ReviewStatus.MASTERED)
                 .count();
             
-            Div totalSolvedCard = createStatCard("已解决题目", String.valueOf(totalSolved), "开始复习的题目数");
+            Div totalSolvedCard = createStatCard("Solved Questions", String.valueOf(totalSolved), "Questions started reviewing");
             statsLayout.add(totalSolvedCard);
             
             // Total reviews
-            Div totalReviewsCard = createStatCard("总复习次数", String.valueOf(reviewStats.totalReviews), "累计复习次数");
+            Div totalReviewsCard = createStatCard("Total Reviews", String.valueOf(reviewStats.totalReviews), "Total review count");
             statsLayout.add(totalReviewsCard);
             
             // Current streak
-            Div streakCard = createStatCard("当前连续天数", String.valueOf(currentUser.getCurrentStreak()), "连续复习天数");
+            Div streakCard = createStatCard("Current Streak", String.valueOf(currentUser.getCurrentStreak()), "Current review streak");
             statsLayout.add(streakCard);
             
             // Longest streak
-            Div longestStreakCard = createStatCard("最长连续天数", String.valueOf(currentUser.getLongestStreak()), "历史最长连续天数");
+            Div longestStreakCard = createStatCard("Longest Streak", String.valueOf(currentUser.getLongestStreak()), "Longest review streak");
             statsLayout.add(longestStreakCard);
         }
         
@@ -103,7 +103,7 @@ public class StatisticsView extends VerticalLayout {
     }
     
     private void createDifficultyStats() {
-        H2 sectionTitle = new H2("难度分布");
+        H2 sectionTitle = new H2("Difficulty Distribution");
         sectionTitle.addClassNames(LumoUtility.Margin.Top.LARGE, LumoUtility.Margin.Bottom.MEDIUM);
         add(sectionTitle);
         
@@ -113,7 +113,7 @@ public class StatisticsView extends VerticalLayout {
         
         for (Question.Difficulty difficulty : Question.Difficulty.values()) {
             long count = questionService.getQuestionCountByDifficulty(difficulty);
-            Div difficultyCard = createStatCard(difficulty.getDisplayName(), String.valueOf(count), "题目数量");
+            Div difficultyCard = createStatCard(difficulty.getDisplayName(), String.valueOf(count), "Question count");
             difficultyLayout.add(difficultyCard);
         }
         
@@ -121,7 +121,7 @@ public class StatisticsView extends VerticalLayout {
     }
     
     private void createTagStats() {
-        H2 sectionTitle = new H2("标签分布");
+        H2 sectionTitle = new H2("Tag Distribution");
         sectionTitle.addClassNames(LumoUtility.Margin.Top.LARGE, LumoUtility.Margin.Bottom.MEDIUM);
         add(sectionTitle);
         
@@ -161,7 +161,7 @@ public class StatisticsView extends VerticalLayout {
     }
     
     private void createReviewStats() {
-        H2 sectionTitle = new H2("复习统计");
+        H2 sectionTitle = new H2("Review Statistics");
         sectionTitle.addClassNames(LumoUtility.Margin.Top.LARGE, LumoUtility.Margin.Bottom.MEDIUM);
         add(sectionTitle);
         
@@ -172,10 +172,10 @@ public class StatisticsView extends VerticalLayout {
             reviewStatsLayout.setWidthFull();
             reviewStatsLayout.setSpacing(true);
             
-            Div forgotCard = createStatCard("忘记", String.valueOf(reviewStats.forgotCount), "忘记次数");
-            Div hardCard = createStatCard("困难", String.valueOf(reviewStats.hardCount), "困难次数");
-            Div goodCard = createStatCard("良好", String.valueOf(reviewStats.goodCount), "良好次数");
-            Div easyCard = createStatCard("简单", String.valueOf(reviewStats.easyCount), "简单次数");
+            Div forgotCard = createStatCard("Forgot", String.valueOf(reviewStats.forgotCount), "Forgot count");
+            Div hardCard = createStatCard("Hard", String.valueOf(reviewStats.hardCount), "Hard count");
+            Div goodCard = createStatCard("Good", String.valueOf(reviewStats.goodCount), "Good count");
+            Div easyCard = createStatCard("Easy", String.valueOf(reviewStats.easyCount), "Easy count");
             
             reviewStatsLayout.add(forgotCard, hardCard, goodCard, easyCard);
             add(reviewStatsLayout);
@@ -190,7 +190,7 @@ public class StatisticsView extends VerticalLayout {
                     LumoUtility.BoxShadow.SMALL
                 );
                 
-                Span avgTimeText = new Span(String.format("平均复习时间: %.1f 秒", reviewStats.averageTime));
+                Span avgTimeText = new Span(String.format("Average review time: %.1f seconds", reviewStats.averageTime));
                 avgTimeText.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.FontWeight.BOLD);
                 
                 avgTimeCard.add(avgTimeText);
@@ -200,7 +200,7 @@ public class StatisticsView extends VerticalLayout {
     }
     
     private void createRecentActivity() {
-        H2 sectionTitle = new H2("最近活动");
+        H2 sectionTitle = new H2("Recent Activity");
         sectionTitle.addClassNames(LumoUtility.Margin.Top.LARGE, LumoUtility.Margin.Bottom.MEDIUM);
         add(sectionTitle);
         
@@ -216,7 +216,7 @@ public class StatisticsView extends VerticalLayout {
             List<ReviewHistory> recentReviews = reviewService.getRecentReviewHistory(currentUser);
             
             if (recentReviews.isEmpty()) {
-                activityCard.add(new Span("暂无复习记录"));
+                activityCard.add(new Span("No review records"));
             } else {
                 VerticalLayout activityList = new VerticalLayout();
                 activityList.setSpacing(true);
@@ -226,7 +226,7 @@ public class StatisticsView extends VerticalLayout {
                     .forEach(review -> {
                         String timeStr = review.getReviewTime().format(DateTimeFormatter.ofPattern("MM-dd HH:mm"));
                         Span activityItem = new Span(
-                            String.format("[%s] 复习了 %s - 评价: %s", 
+                            String.format("[%s] Reviewed %s - Rating: %s", 
                                 timeStr,
                                 review.getQuestion().getTitle(),
                                 review.getReviewRating().getDisplayName())
@@ -237,7 +237,7 @@ public class StatisticsView extends VerticalLayout {
                 activityCard.add(activityList);
             }
         } else {
-            activityCard.add(new Span("请先登录"));
+            activityCard.add(new Span("Please login first"));
         }
         
         add(activityCard);

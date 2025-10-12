@@ -17,6 +17,7 @@
         <a href="today-review.html">⏰ Today's Review</a>
         <a href="question-list.html">📝 Question List</a>
         <a href="statistics.html" class="active">📈 Statistics</a>
+        <a href="email-settings.html">📧 Email Settings</a>
     </div>
     
     <div class="container">
@@ -26,20 +27,86 @@
             <h2>📈 Review Statistics</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <span class="stat-number">15</span>
+                    <span class="stat-number">0</span>
                     <div class="stat-label">Total Questions</div>
+                    <div class="stat-description">Problems added to your list</div>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">12</span>
+                    <span class="stat-number">0</span>
                     <div class="stat-label">Total Reviews</div>
+                    <div class="stat-description">Review sessions completed</div>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">80%</span>
+                    <span class="stat-number">0%</span>
                     <div class="stat-label">Mastery Rate</div>
+                    <div class="stat-description">Problems truly mastered</div>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">16%</span>
+                    <span class="stat-number">0%</span>
                     <div class="stat-label">Forgetting Score</div>
+                    <div class="stat-description">Knowledge retention rate</div>
+                </div>
+            </div>
+            
+            <!-- Detailed Statistics Section -->
+            <div class="detailed-stats">
+                <h3>📋 Ebbinghaus Forgetting Curve Analysis</h3>
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <h4>📊 Core Statistics</h4>
+                        <div class="calculation-detail">
+                            <strong>Total Questions:</strong> Counts all problems in the user's database
+                        </div>
+                        <div class="calculation-detail">
+                            <strong>Total Reviews:</strong> Counts every "Mastered" or "Forgot" mark
+                        </div>
+                        <div class="calculation-detail">
+                            <strong>Mastery Rate:</strong> (Mastered marks / Total review marks) × 100%
+                        </div>
+                        <div class="calculation-detail">
+                            <strong>Forgetting Score:</strong> (Forgot marks / Total review marks) × 100%
+                        </div>
+                        <div class="calculation-detail">
+                            <strong>Validation:</strong> Mastery Rate + Forgetting Score = 100%
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h4>🔄 Ebbinghaus Review Intervals</h4>
+                        <div class="calculation-detail">
+                            <strong>1st Review:</strong> 1 day after adding
+                        </div>
+                        <div class="calculation-detail">
+                            <strong>2nd Review:</strong> 3 days after 1st
+                        </div>
+                        <div class="calculation-detail">
+                            <strong>3rd Review:</strong> 7 days after 2nd
+                        </div>
+                        <div class="calculation-detail">
+                            <strong>4th Review:</strong> 15 days after 3rd
+                        </div>
+                        <div class="calculation-detail">
+                            <strong>5th Review:</strong> 30 days after 4th
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h4>📅 Today's Review Priority</h4>
+                        <div id="performance-insights">
+                            <div class="insight-item">
+                                <span class="insight-icon">🎯</span>
+                                <span class="insight-text">Prioritize questions with more "Forgot" marks</span>
+                            </div>
+                            <div class="insight-item">
+                                <span class="insight-icon">⏰</span>
+                                <span class="insight-text">Review by due date if forgot counts are equal</span>
+                            </div>
+                            <div class="insight-item">
+                                <span class="insight-icon">🔄</span>
+                                <span class="insight-text">Reset to 1-day interval if marked "Forgot"</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

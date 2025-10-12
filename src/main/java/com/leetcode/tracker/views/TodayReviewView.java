@@ -28,7 +28,7 @@ import java.util.List;
  * Today's review view showing due questions for review
  */
 @Route(value = "today-review", layout = MainLayout.class)
-@PageTitle("今日复习 | LeetCode Memory Tracker")
+@PageTitle("Today's Review | LeetCode Memory Tracker")
 public class TodayReviewView extends VerticalLayout {
     
     private final ReviewService reviewService;
@@ -57,7 +57,7 @@ public class TodayReviewView extends VerticalLayout {
     }
     
     private void createHeader() {
-        H2 header = new H2("今日复习");
+        H2 header = new H2("Today's Review");
         header.addClassNames(LumoUtility.Margin.Bottom.LARGE);
         add(header);
     }
@@ -68,7 +68,7 @@ public class TodayReviewView extends VerticalLayout {
         reviewList.setWidthFull();
         
         if (currentUser == null) {
-            reviewList.add(new Span("请先登录"));
+            reviewList.add(new Span("Please login first"));
             add(reviewList);
             return;
         }
@@ -84,7 +84,7 @@ public class TodayReviewView extends VerticalLayout {
                 LumoUtility.BoxShadow.SMALL,
                 LumoUtility.TextAlignment.CENTER
             );
-            noReviewsCard.add(new Span("🎉 太棒了！今天没有需要复习的题目"));
+            noReviewsCard.add(new Span("🎉 Great! No questions to review today"));
             reviewList.add(noReviewsCard);
         } else {
             for (UserQuestionReview review : dueReviews) {
@@ -108,20 +108,20 @@ public class TodayReviewView extends VerticalLayout {
         Span title = new Span(review.getQuestion().getTitle());
         title.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.FontWeight.BOLD);
         
-        Span difficulty = new Span("难度: " + review.getQuestion().getDifficulty().getDisplayName());
+        Span difficulty = new Span("Difficulty: " + review.getQuestion().getDifficulty().getDisplayName());
         difficulty.addClassNames(LumoUtility.FontSize.SMALL, LumoUtility.TextColor.SECONDARY);
         
-        Span tags = new Span("标签: " + String.join(", ", review.getQuestion().getTags()));
+        Span tags = new Span("Tags: " + String.join(", ", review.getQuestion().getTags()));
         tags.addClassNames(LumoUtility.FontSize.SMALL, LumoUtility.TextColor.SECONDARY);
         
-        Span nextReview = new Span("下次复习: " + 
+        Span nextReview = new Span("Next Review: " + 
             (review.getNextReviewTime() != null ? 
                 review.getNextReviewTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) : 
-                "未设置"));
+                "Not set"));
         nextReview.addClassNames(LumoUtility.FontSize.SMALL, LumoUtility.TextColor.SECONDARY);
         
         // Review button
-        Button reviewButton = new Button("开始复习", e -> openReviewDialog(review));
+        Button reviewButton = new Button("Start Review", e -> openReviewDialog(review));
         reviewButton.addClassNames(LumoUtility.Margin.Top.MEDIUM);
         
         VerticalLayout cardContent = new VerticalLayout(title, difficulty, tags, nextReview, reviewButton);
@@ -136,31 +136,31 @@ public class TodayReviewView extends VerticalLayout {
         Dialog dialog = new Dialog();
         dialog.setWidth("500px");
         
-        H2 dialogTitle = new H2("复习: " + review.getQuestion().getTitle());
+        H2 dialogTitle = new H2("Review: " + review.getQuestion().getTitle());
         
         // Rating selection
         RadioButtonGroup<ReviewHistory.ReviewRating> ratingGroup = new RadioButtonGroup<>();
-        ratingGroup.setLabel("复习评价");
+        ratingGroup.setLabel("Review Rating");
         ratingGroup.setItems(ReviewHistory.ReviewRating.values());
         ratingGroup.setItemLabelGenerator(ReviewHistory.ReviewRating::getDisplayName);
         
         // Time spent
-        TextField timeSpentField = new TextField("花费时间 (秒)");
-        timeSpentField.setPlaceholder("例如: 300");
+        TextField timeSpentField = new TextField("Time Spent (seconds)");
+        timeSpentField.setPlaceholder("e.g. 300");
         
         // Notes
-        TextArea notesField = new TextArea("复习笔记");
-        notesField.setPlaceholder("记录你的思路、解法或需要注意的地方...");
+        TextArea notesField = new TextArea("Review Notes");
+        notesField.setPlaceholder("Record your thoughts, solutions, or things to note...");
         notesField.setHeight("100px");
         
         // Buttons
-        Button submitButton = new Button("提交复习", e -> {
+        Button submitButton = new Button("Submit Review", e -> {
             submitReview(review, ratingGroup.getValue(), timeSpentField.getValue(), notesField.getValue());
             dialog.close();
         });
         submitButton.addClassNames(LumoUtility.Margin.Top.MEDIUM);
         
-        Button cancelButton = new Button("取消", e -> dialog.close());
+        Button cancelButton = new Button("Cancel", e -> dialog.close());
         
         HorizontalLayout buttonLayout = new HorizontalLayout(submitButton, cancelButton);
         buttonLayout.setSpacing(true);
@@ -179,7 +179,7 @@ public class TodayReviewView extends VerticalLayout {
     private void submitReview(UserQuestionReview review, ReviewHistory.ReviewRating rating, 
                             String timeSpentStr, String notes) {
         if (rating == null) {
-            Notification.show("请选择复习评价", 3000, Notification.Position.MIDDLE);
+            Notification.show("Please select a review rating", 3000, Notification.Position.MIDDLE);
             return;
         }
         
@@ -189,16 +189,16 @@ public class TodayReviewView extends VerticalLayout {
             
             reviewService.submitReview(currentUser, review.getQuestion(), rating, timeSpent, notes);
             
-            Notification.show("复习提交成功！", 3000, Notification.Position.MIDDLE);
+            Notification.show("Review submitted successfully!", 3000, Notification.Position.MIDDLE);
             
             // Refresh the review list
             reviewList.removeAll();
             createReviewList();
             
         } catch (NumberFormatException e) {
-            Notification.show("请输入有效的时间（数字）", 3000, Notification.Position.MIDDLE);
+            Notification.show("Please enter a valid time (number)", 3000, Notification.Position.MIDDLE);
         } catch (Exception e) {
-            Notification.show("提交失败: " + e.getMessage(), 3000, Notification.Position.MIDDLE);
+            Notification.show("Submission failed: " + e.getMessage(), 3000, Notification.Position.MIDDLE);
         }
     }
 }

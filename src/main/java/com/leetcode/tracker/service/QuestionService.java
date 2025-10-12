@@ -17,17 +17,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class QuestionService {
-    
+
     private final QuestionRepository questionRepository;
-    
+
     /**
      * Create a new question
      */
     @Transactional
-    public Question createQuestion(String title, Question.Difficulty difficulty, 
-                                 List<String> tags, String leetcodeUrl, 
-                                 Integer leetcodeNumber, String description) {
-        
+    public Question createQuestion(String title, Question.Difficulty difficulty,
+            List<String> tags, String leetcodeUrl,
+            Integer leetcodeNumber, String description) {
+
         Question question = Question.builder()
                 .title(title)
                 .difficulty(difficulty)
@@ -36,61 +36,61 @@ public class QuestionService {
                 .leetcodeNumber(leetcodeNumber)
                 .description(description)
                 .build();
-        
+
         Question savedQuestion = questionRepository.save(question);
         log.info("Created new question: {}", title);
         return savedQuestion;
     }
-    
+
     /**
      * Find question by ID
      */
     public Optional<Question> findById(Long id) {
         return questionRepository.findById(id);
     }
-    
+
     /**
      * Find questions by difficulty
      */
     public List<Question> findByDifficulty(Question.Difficulty difficulty) {
         return questionRepository.findByDifficulty(difficulty);
     }
-    
+
     /**
      * Find questions by tag
      */
     public List<Question> findByTag(String tag) {
         return questionRepository.findByTag(tag);
     }
-    
+
     /**
      * Search questions by title
      */
     public List<Question> searchByTitle(String title) {
         return questionRepository.findByTitleContainingIgnoreCase(title);
     }
-    
+
     /**
      * Find question by LeetCode number
      */
     public Optional<Question> findByLeetcodeNumber(Integer leetcodeNumber) {
         return questionRepository.findByLeetcodeNumber(leetcodeNumber);
     }
-    
+
     /**
      * Search questions with filters
      */
     public List<Question> searchQuestions(String title, Question.Difficulty difficulty, String tag) {
         return questionRepository.searchQuestions(title, difficulty, tag);
     }
-    
+
     /**
      * Get all questions
      */
     public List<Question> getAllQuestions() {
         return questionRepository.findAll();
     }
-    
+
     /**
      * Update question
      */
@@ -100,7 +100,7 @@ public class QuestionService {
         log.info("Updated question: {}", question.getTitle());
         return savedQuestion;
     }
-    
+
     /**
      * Delete question
      */
@@ -109,17 +109,16 @@ public class QuestionService {
         questionRepository.deleteById(questionId);
         log.info("Deleted question with ID: {}", questionId);
     }
-    
+
     /**
      * Get all available tags
      */
     public List<String> getAllTags() {
         return List.of(
-            "数组", "字符串", "链表", "树", "图", "动态规划", "回溯", 
-            "贪心", "数学", "排序", "搜索", "其他"
-        );
+                "Array", "String", "Linked List", "Tree", "Graph", "Dynamic Programming", "Backtracking",
+                "Greedy", "Math", "Sorting", "Search", "Other");
     }
-    
+
     /**
      * Get difficulty statistics
      */

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Color Extractor</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .video-section {
+            margin-bottom: 30px;
+        }
+        
+        video {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .color-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            transition: transform 0.2s;
+        }
+        
+        .color-item:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+        
+        .color-box {
+            width: 100%;
+            height: 60px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+        
+        .color-code {
+            font-family: monospace;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .color-percentage {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .preview-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .gradient-preview {
+            height: 100px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+        
+        .css-code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Video Color Extractor</h1>
+        
+        <div class="video-section">
+            <video id="video" controls>
+                <source src="../OA WINNER.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            
+            <div class="controls">
+                <button onclick="extractColors()">Extract Colors from Current Frame</button>
+                <button onclick="startAutoExtraction()">Auto Extract (Every 2s)</button>
+                <button onclick="stopAutoExtraction()">Stop Auto</button>
+            </div>
+        </div>
+        
+        <div id="colorResults">
+            <h3>Extracted Color Palette:</h3>
+            <div id="colorPalette" class="color-palette">
+                <p>Click "Extract Colors" to analyze the video frame</p>
+            </div>
+        </div>
+        
+        <div class="preview-section">
+            <h3>CSS Gradient Preview:</h3>
+            <div id="gradientPreview" class="gradient-preview"></div>
+            <div id="cssCode" class="css-code">
+                /* Generated CSS will appear here */
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let autoExtractionInterval;
+        
+        function extractColors() {
+            const video = document.getElementById('video');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size to video dimensions
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            // Draw current video frame to canvas
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Get image data
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            // Extract colors
+            const colors = extractMainColors(data);
+            displayColors(colors);
+            generateCSS(colors);
+        }
+        
+        function extractMainColors(imageData) {
+            const colorMap = {};
+            const pixelCount = imageData.length / 4;
+            
+            // Sample every 10th pixel for performance
+            for (let i = 0; i < imageData.length; i += 40) {
+                const r = imageData[i];
+                const g = imageData[i + 1];
+                const b = imageData[i + 2];
+                
+                // Skip transparent pixels
+                if (imageData[i + 3] < 128) continue;
+                
+                // Quantize colors to reduce noise
+                const quantizedR = Math.round(r / 25) * 25;
+                const quantizedG = Math.round(g / 25) * 25;
+                const quantizedB = Math.round(b / 25) * 25;
+                
+                const colorKey = `${quantizedR},${quantizedG},${quantizedB}`;
+                colorMap[colorKey] = (colorMap[colorKey] || 0) + 1;
+            }
+            
+            // Convert to array and sort by frequency
+            const colorArray = Object.entries(colorMap)
+                .map(([color, count]) => ({
+                    color: color.split(',').map(Number),
+                    count: count,
+                    percentage: (count / pixelCount * 40) * 100
+                }))
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 8); // Get top 8 colors
+            
+            return colorArray;
+        }
+        
+        function displayColors(colors) {
+            const palette = document.getElementById('colorPalette');
+            palette.innerHTML = '';
+            
+            colors.forEach((colorData, index) => {
+                const [r, g, b] = colorData.color;
+                const hexColor = rgbToHex(r, g, b);
+                
+                const colorItem = document.createElement('div');
+                colorItem.className = 'color-item';
+                colorItem.innerHTML = `
+                    <div class="color-box" style="background-color: rgb(${r}, ${g}, ${b})"></div>
+                    <div class="color-code">${hexColor}</div>
+                    <div class="color-percentage">${colorData.percentage.toFixed(1)}%</div>
+                `;
+                
+                colorItem.addEventListener('click', () => {
+                    copyToClipboard(hexColor);
+                    alert(`Copied ${hexColor} to clipboard!`);
+                });
+                
+                palette.appendChild(colorItem);
+            });
+        }
+        
+        function generateCSS(colors) {
+            if (colors.length < 2) return;
+            
+            const primaryColor = colors[0].color;
+            const secondaryColor = colors[1].color;
+            
+            const primaryHex = rgbToHex(...primaryColor);
+            const secondaryHex = rgbToHex(...secondaryColor);
+            
+            const gradientPreview = document.getElementById('gradientPreview');
+            gradientPreview.style.background = `linear-gradient(135deg, ${primaryHex} 0%, ${secondaryHex} 100%)`;
+            
+            const cssCode = document.getElementById('cssCode');
+            cssCode.textContent = `/* Video Color Theme */
+body {
+    background: linear-gradient(135deg, ${primaryHex} 0%, ${secondaryHex} 100%);
+}
+
+.login-btn {
+    background: linear-gradient(135deg, ${primaryHex} 0%, ${secondaryHex} 100%);
+}
+
+.demo-btn {
+    color: ${primaryHex};
+    border-color: ${primaryHex};
+}
+
+.demo-btn:hover {
+    background: ${primaryHex};
+}`;
+        }
+        
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+        }
+        
+        function startAutoExtraction() {
+            if (autoExtractionInterval) {
+                clearInterval(autoExtractionInterval);
+            }
+            
+            autoExtractionInterval = setInterval(() => {
+                extractColors();
+            }, 2000);
+        }
+        
+        function stopAutoExtraction() {
+            if (autoExtractionInterval) {
+                clearInterval(autoExtractionInterval);
+                autoExtractionInterval = null;
+            }
+        }
+        
+        // Initialize when video is loaded
+        document.getElementById('video').addEventListener('loadedmetadata', () => {
+            console.log('Video loaded, ready to extract colors');
+        });
+    </script>
+</body>
+</html>

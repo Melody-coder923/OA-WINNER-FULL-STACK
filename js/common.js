@@ -1,41 +1,52 @@
 /* ============================================
    COMMON JAVASCRIPT FUNCTIONS
-   通用JavaScript功能，所有页面共享
+   Shared functionality across all pages
    ============================================ */
 
-// Constants
-const DEMO_MESSAGE = 'This is a demo version! Full functionality requires running the Spring Boot application.\n\nPlease follow the instructions in README.md to install Maven and MySQL, then run the project.';
-const NAV_DEMO_MESSAGE = 'This is a demo version! Full functionality requires running the Spring Boot application.';
+// Constants and Configuration
+const CONFIG = {
+    DEMO_MESSAGE: 'This is a demo version! Full functionality requires running the Spring Boot application.\n\nPlease follow the instructions in README.md to install Maven and MySQL, then run the project.',
+    NAV_DEMO_MESSAGE: 'This is a demo version! Full functionality requires running the Spring Boot application.',
+    NOTIFICATION_DURATION: 3000,
+    ANIMATION_DURATION: 300
+};
+
+// Performance optimization: Cache DOM elements
+const DOMCache = new Map();
 
 // Utility Functions
 const showNotification = (message, type = 'info') => {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--primary-color);
-        color: white;
-        padding: var(--spacing-md);
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow-medium);
-        z-index: 1000;
-        max-width: 300px;
-        animation: slideIn 0.3s ease;
-    `;
-    notification.textContent = message;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
+    try {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            z-index: 1000;
+            max-width: 300px;
+            animation: slideIn ${CONFIG.ANIMATION_DURATION}ms ease;
+        `;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
         setTimeout(() => {
-            if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
-    }, 3000);
+            notification.style.animation = `slideOut ${CONFIG.ANIMATION_DURATION}ms ease`;
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, CONFIG.ANIMATION_DURATION);
+        }, CONFIG.NOTIFICATION_DURATION);
+    } catch (error) {
+        console.error('Error showing notification:', error);
+    }
 };
 
 const setLoadingState = (button, isLoading) => {
@@ -59,20 +70,95 @@ const escapeHtml = (text) => {
 
 // Navigation Functions
 const handleNavigation = (e) => {
-    const link = e.target;
-    if (link.getAttribute('href') === '#') {
-        e.preventDefault();
-        showNotification(NAV_DEMO_MESSAGE, 'error');
+    try {
+        const link = e.target;
+        if (link.getAttribute('href') === '#') {
+            e.preventDefault();
+            showNotification(CONFIG.NAV_DEMO_MESSAGE, 'error');
+        }
+    } catch (error) {
+        console.error('Navigation error:', error);
     }
 };
 
 // Common Event Handlers
 const handleButtonClick = (event) => {
-    const button = event.target;
-    if (!button.onclick && !button.hasAttribute('data-handled')) {
-        event.preventDefault();
-        showNotification(DEMO_MESSAGE);
+    try {
+        const button = event.target;
+        if (!button.onclick && !button.hasAttribute('data-handled')) {
+            event.preventDefault();
+            showNotification(CONFIG.DEMO_MESSAGE);
+        }
+    } catch (error) {
+        console.error('Button click error:', error);
     }
+};
+
+// Dashboard Statistics Functions
+const initializeDashboardStats = () => {
+    // Only run on dashboard page
+    if (!document.querySelector('.stats-grid')) return;
+    
+    try {
+        // Load statistics calculator if available
+        if (typeof statsCalculator !== 'undefined') {
+            updateDashboardStatistics();
+        } else {
+            // Fallback: load statistics.js dynamically
+            const script = document.createElement('script');
+            script.src = 'js/statistics.js';
+            script.onload = () => {
+                updateDashboardStatistics();
+            };
+            document.head.appendChild(script);
+        }
+    } catch (error) {
+        console.error('Error initializing dashboard stats:', error);
+    }
+};
+
+const updateDashboardStatistics = () => {
+    if (typeof statsCalculator === 'undefined') return;
+    
+    const stats = statsCalculator.getAllStatistics();
+    
+    // Update dashboard stat cards
+    const statCards = document.querySelectorAll('.stat-card .stat-number');
+    if (statCards.length >= 4) {
+        statCards[0].textContent = stats.totalQuestions;
+        statCards[1].textContent = stats.totalReviews;
+        statCards[2].textContent = stats.masteryRate + '%';
+        statCards[3].textContent = stats.forgettingScore + '%';
+        
+        // Animate the numbers
+        statCards.forEach((card, index) => {
+            const values = [stats.totalQuestions, stats.totalReviews, stats.masteryRate, stats.forgettingScore];
+            animateStatNumber(card, values[index], index === 2 || index === 3);
+        });
+    }
+};
+
+const animateStatNumber = (element, targetValue, isPercentage = false) => {
+    const startValue = 0;
+    const duration = 1500;
+    const startTime = performance.now();
+    
+    const animate = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const currentValue = Math.round(startValue + (targetValue - startValue) * easeOutQuart);
+        
+        element.textContent = currentValue + (isPercentage ? '%' : '');
+        
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    };
+    
+    requestAnimationFrame(animate);
 };
 
 // Initialize Common Features
@@ -105,6 +191,9 @@ const initializeCommonFeatures = () => {
                 handleButtonClick(e);
             }
         });
+        
+        // Initialize dashboard statistics
+        initializeDashboardStats();
         
         // Performance monitoring
         if ('performance' in window) {

@@ -27,7 +27,7 @@ import java.util.List;
  * Question list view for managing LeetCode problems
  */
 @Route(value = "questions", layout = MainLayout.class)
-@PageTitle("题目列表 | LeetCode Memory Tracker")
+@PageTitle("Question List | LeetCode Memory Tracker")
 public class QuestionListView extends VerticalLayout {
     
     private final QuestionService questionService;
@@ -63,7 +63,7 @@ public class QuestionListView extends VerticalLayout {
     }
     
     private void createHeader() {
-        H2 header = new H2("题目列表");
+        H2 header = new H2("Question List");
         header.addClassNames(LumoUtility.Margin.Bottom.LARGE);
         add(header);
     }
@@ -74,27 +74,27 @@ public class QuestionListView extends VerticalLayout {
         filterLayout.setAlignItems(Alignment.END);
         
         // Search field
-        searchField = new TextField("搜索题目");
-        searchField.setPlaceholder("输入题目名称...");
+        searchField = new TextField("Search Questions");
+        searchField.setPlaceholder("Enter question name...");
         searchField.addValueChangeListener(e -> refreshQuestionList());
         
         // Difficulty filter
         difficultyFilter = new Select<>();
-        difficultyFilter.setLabel("难度");
+        difficultyFilter.setLabel("Difficulty");
         difficultyFilter.setItems(Question.Difficulty.values());
         difficultyFilter.setItemLabelGenerator(Question.Difficulty::getDisplayName);
-        difficultyFilter.setPlaceholder("选择难度");
+        difficultyFilter.setPlaceholder("Select difficulty");
         difficultyFilter.addValueChangeListener(e -> refreshQuestionList());
         
         // Tag filter
         tagFilter = new Select<>();
-        tagFilter.setLabel("标签");
+        tagFilter.setLabel("Tags");
         tagFilter.setItems(questionService.getAllTags());
-        tagFilter.setPlaceholder("选择标签");
+        tagFilter.setPlaceholder("Select tags");
         tagFilter.addValueChangeListener(e -> refreshQuestionList());
         
         // Clear filters button
-        Button clearFiltersButton = new Button("清除筛选", e -> {
+        Button clearFiltersButton = new Button("Clear Filters", e -> {
             searchField.clear();
             difficultyFilter.clear();
             tagFilter.clear();
@@ -106,7 +106,7 @@ public class QuestionListView extends VerticalLayout {
     }
     
     private void createAddButton() {
-        Button addButton = new Button("添加题目", e -> openAddQuestionDialog());
+        Button addButton = new Button("Add Question", e -> openAddQuestionDialog());
         addButton.addClassNames(LumoUtility.Margin.Top.MEDIUM);
         add(addButton);
     }
@@ -138,7 +138,7 @@ public class QuestionListView extends VerticalLayout {
                 LumoUtility.BoxShadow.SMALL,
                 LumoUtility.TextAlignment.CENTER
             );
-            noQuestionsCard.add(new Span("没有找到匹配的题目"));
+            noQuestionsCard.add(new Span("No matching questions found"));
             questionList.add(noQuestionsCard);
         } else {
             for (Question question : questions) {
@@ -160,10 +160,10 @@ public class QuestionListView extends VerticalLayout {
         Span title = new Span(question.getTitle());
         title.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.FontWeight.BOLD);
         
-        Span difficulty = new Span("难度: " + question.getDifficulty().getDisplayName());
+        Span difficulty = new Span("Difficulty: " + question.getDifficulty().getDisplayName());
         difficulty.addClassNames(LumoUtility.FontSize.SMALL, LumoUtility.TextColor.SECONDARY);
         
-        Span tags = new Span("标签: " + String.join(", ", question.getTags()));
+        Span tags = new Span("Tags: " + String.join(", ", question.getTags()));
         tags.addClassNames(LumoUtility.FontSize.SMALL, LumoUtility.TextColor.SECONDARY);
         
         // Check if user has started reviewing this question
@@ -179,10 +179,10 @@ public class QuestionListView extends VerticalLayout {
         
         Span status = new Span();
         if (userReview != null) {
-            status.setText("状态: " + userReview.getStatus().getDisplayName());
+            status.setText("Status: " + userReview.getStatus().getDisplayName());
             status.addClassNames(LumoUtility.FontSize.SMALL, LumoUtility.TextColor.SECONDARY);
         } else {
-            status.setText("状态: 未开始");
+            status.setText("Status: Not Started");
             status.addClassNames(LumoUtility.FontSize.SMALL, LumoUtility.TextColor.SECONDARY);
         }
         
@@ -192,16 +192,16 @@ public class QuestionListView extends VerticalLayout {
         
         if (currentUser != null) {
             if (userReview == null) {
-                Button startReviewButton = new Button("开始复习", e -> startReview(question));
+                Button startReviewButton = new Button("Start Review", e -> startReview(question));
                 buttonLayout.add(startReviewButton);
             } else {
-                Button viewProgressButton = new Button("查看进度", e -> viewProgress(userReview));
+                Button viewProgressButton = new Button("View Progress", e -> viewProgress(userReview));
                 buttonLayout.add(viewProgressButton);
             }
         }
         
         if (question.getLeetcodeUrl() != null && !question.getLeetcodeUrl().isEmpty()) {
-            Button openLeetCodeButton = new Button("打开LeetCode", e -> {
+            Button openLeetCodeButton = new Button("Open LeetCode", e -> {
                 getUI().ifPresent(ui -> ui.getPage().open(question.getLeetcodeUrl(), "_blank"));
             });
             buttonLayout.add(openLeetCodeButton);
@@ -217,16 +217,16 @@ public class QuestionListView extends VerticalLayout {
     
     private void startReview(Question question) {
         if (currentUser == null) {
-            Notification.show("请先登录", 3000, Notification.Position.MIDDLE);
+            Notification.show("Please login first", 3000, Notification.Position.MIDDLE);
             return;
         }
-        
+
         try {
             reviewService.startReview(currentUser, question);
-            Notification.show("已开始复习: " + question.getTitle(), 3000, Notification.Position.MIDDLE);
+            Notification.show("Started review: " + question.getTitle(), 3000, Notification.Position.MIDDLE);
             refreshQuestionList();
         } catch (Exception e) {
-            Notification.show("开始复习失败: " + e.getMessage(), 3000, Notification.Position.MIDDLE);
+            Notification.show("Failed to start review: " + e.getMessage(), 3000, Notification.Position.MIDDLE);
         }
     }
     
@@ -234,26 +234,26 @@ public class QuestionListView extends VerticalLayout {
         Dialog dialog = new Dialog();
         dialog.setWidth("400px");
         
-        H2 dialogTitle = new H2("复习进度: " + review.getQuestion().getTitle());
+        H2 dialogTitle = new H2("Review Progress: " + review.getQuestion().getTitle());
         
-        Span status = new Span("状态: " + review.getStatus().getDisplayName());
-        Span totalReviews = new Span("总复习次数: " + review.getTotalReviews());
-        Span nextReview = new Span("下次复习: " + 
+        Span status = new Span("Status: " + review.getStatus().getDisplayName());
+        Span totalReviews = new Span("Total Reviews: " + review.getTotalReviews());
+        Span nextReview = new Span("Next Review: " + 
             (review.getNextReviewTime() != null ? 
-                review.getNextReviewTime().toString() : "未设置"));
+                review.getNextReviewTime().toString() : "Not set"));
         
-        Button markMasteredButton = new Button("标记为已掌握", e -> {
+        Button markMasteredButton = new Button("Mark as Mastered", e -> {
             reviewService.markAsMastered(currentUser, review.getQuestion());
             dialog.close();
             refreshQuestionList();
-            Notification.show("已标记为掌握", 3000, Notification.Position.MIDDLE);
+            Notification.show("Marked as mastered", 3000, Notification.Position.MIDDLE);
         });
         
-        Button resetButton = new Button("重置进度", e -> {
+        Button resetButton = new Button("Reset Progress", e -> {
             reviewService.resetReviewProgress(currentUser, review.getQuestion());
             dialog.close();
             refreshQuestionList();
-            Notification.show("已重置进度", 3000, Notification.Position.MIDDLE);
+            Notification.show("Progress reset", 3000, Notification.Position.MIDDLE);
         });
         
         HorizontalLayout buttonLayout = new HorizontalLayout(markMasteredButton, resetButton);
@@ -271,39 +271,39 @@ public class QuestionListView extends VerticalLayout {
         Dialog dialog = new Dialog();
         dialog.setWidth("500px");
         
-        H2 dialogTitle = new H2("添加新题目");
+        H2 dialogTitle = new H2("Add New Question");
         
-        TextField titleField = new TextField("题目名称");
+        TextField titleField = new TextField("Question Title");
         titleField.setRequired(true);
         
         Select<Question.Difficulty> difficultySelect = new Select<>();
-        difficultySelect.setLabel("难度");
+        difficultySelect.setLabel("Difficulty");
         difficultySelect.setItems(Question.Difficulty.values());
         difficultySelect.setItemLabelGenerator(Question.Difficulty::getDisplayName);
         
         Select<String> tagSelect = new Select<>();
-        tagSelect.setLabel("标签");
+        tagSelect.setLabel("Tags");
         tagSelect.setItems(questionService.getAllTags());
         
-        TextField urlField = new TextField("LeetCode链接");
+        TextField urlField = new TextField("LeetCode URL");
         urlField.setPlaceholder("https://leetcode.cn/problems/...");
         
-        TextField numberField = new TextField("题目编号");
-        numberField.setPlaceholder("例如: 1");
+        TextField numberField = new TextField("Question Number");
+        numberField.setPlaceholder("e.g. 1");
         
-        Button addButton = new Button("添加", e -> {
+        Button addButton = new Button("Add", e -> {
             if (titleField.getValue() == null || titleField.getValue().isEmpty()) {
-                Notification.show("请输入题目名称", 3000, Notification.Position.MIDDLE);
+                Notification.show("Please enter question title", 3000, Notification.Position.MIDDLE);
                 return;
             }
             
             if (difficultySelect.getValue() == null) {
-                Notification.show("请选择难度", 3000, Notification.Position.MIDDLE);
+                Notification.show("Please select difficulty", 3000, Notification.Position.MIDDLE);
                 return;
             }
             
             if (tagSelect.getValue() == null) {
-                Notification.show("请选择标签", 3000, Notification.Position.MIDDLE);
+                Notification.show("Please select tags", 3000, Notification.Position.MIDDLE);
                 return;
             }
             
@@ -322,16 +322,16 @@ public class QuestionListView extends VerticalLayout {
                 
                 dialog.close();
                 refreshQuestionList();
-                Notification.show("题目添加成功", 3000, Notification.Position.MIDDLE);
+                Notification.show("Question added successfully", 3000, Notification.Position.MIDDLE);
                 
             } catch (NumberFormatException ex) {
-                Notification.show("请输入有效的题目编号", 3000, Notification.Position.MIDDLE);
+                Notification.show("Please enter a valid question number", 3000, Notification.Position.MIDDLE);
             } catch (Exception ex) {
-                Notification.show("添加失败: " + ex.getMessage(), 3000, Notification.Position.MIDDLE);
+                Notification.show("Failed to add: " + ex.getMessage(), 3000, Notification.Position.MIDDLE);
             }
         });
         
-        Button cancelButton = new Button("取消", e -> dialog.close());
+        Button cancelButton = new Button("Cancel", e -> dialog.close());
         
         HorizontalLayout buttonLayout = new HorizontalLayout(addButton, cancelButton);
         buttonLayout.setSpacing(true);

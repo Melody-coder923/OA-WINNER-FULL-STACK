@@ -1,6 +1,6 @@
 /* ============================================
    STATISTICS SPECIFIC STYLES
-   仅用于statistics.html页面的样式
+   Statistics page specific styles
    ============================================ */
 
 /* Stats Grid for Statistics Page */
@@ -27,6 +27,14 @@
     color: var(--text-secondary);
     margin-top: var(--spacing-sm);
     font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.stat-description {
+    color: var(--text-light);
+    margin-top: var(--spacing-xs);
+    font-size: 0.8rem;
+    line-height: 1.3;
 }
 
 /* Progress Sections */
@@ -79,9 +87,122 @@
     }
 }
 
+/* Detailed Statistics */
+.detailed-stats {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: rgba(111, 156, 110, 0.05);
+    border-radius: var(--border-radius-large);
+    border: 1px solid rgba(111, 156, 110, 0.1);
+}
+
+.detailed-stats h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.2rem;
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.analysis-card {
+    background: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-light);
+}
+
+.analysis-card h4 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-md);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.calculation-detail {
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: rgba(111, 156, 110, 0.05);
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.calculation-detail strong {
+    color: var(--primary-color);
+}
+
+.insight-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: rgba(111, 156, 110, 0.05);
+    border-radius: var(--border-radius);
+}
+
+.insight-icon {
+    margin-right: var(--spacing-sm);
+    font-size: 1.2rem;
+}
+
+.insight-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Ebbinghaus forgetting curve styles */
+.interval-table {
+    display: grid;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.interval-row {
+    display: grid;
+    grid-template-columns: 40px 60px 1fr;
+    align-items: center;
+    padding: var(--spacing-sm);
+    background: rgba(111, 156, 110, 0.05);
+    border-radius: var(--border-radius);
+    border-left: 3px solid var(--primary-color);
+}
+
+.interval-number {
+    font-weight: bold;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.interval-days {
+    font-weight: 600;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.interval-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding-left: var(--spacing-sm);
+}
+
+/* Validation relationship styles */
+.calculation-detail.valid {
+    background: rgba(76, 175, 80, 0.1);
+    border-left: 3px solid #4CAF50;
+}
+
+.calculation-detail.invalid {
+    background: rgba(244, 67, 54, 0.1);
+    border-left: 3px solid #F44336;
+}
+
 /* Large Desktop */
 @media (min-width: 1200px) {
     .stats-grid {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }

@@ -56,9 +56,9 @@ public class Question {
      * Difficulty levels for LeetCode problems
      */
     public enum Difficulty {
-        EASY("简单"),
-        MEDIUM("中等"),
-        HARD("困难");
+        EASY("Easy"),
+        MEDIUM("Medium"),
+        HARD("Hard");
         
         private final String displayName;
         
