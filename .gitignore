@@ -68,3 +68,9 @@ node_modules/
 # Temporary files
 *.tmp
 *.temp
+
+# Vaadin generated files
+frontend/generated/
+package-lock.json
+pnpm-lock.yaml
+webpack.generated.js
